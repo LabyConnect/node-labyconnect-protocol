@@ -1,0 +1,22 @@
+{
+	"name": "node-labyconnect-protocol",
+	"version": "0.0.1",
+	"description": "Node.js wrapper for LabyConnect protocol",
+	"main": "dist/cjs/index.cjs",
+	"type": "module",
+	"scripts": {
+		"build": "tsm build.ts",
+		"test": "tsm node_modules/uvu/bin.js tests"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.30",
+		"prismarine-auth": "^2.4.1",
+		"tsm": "^2.3.0",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.3",
+		"uvu": "^0.5.6"
+	},
+	"dependencies": {
+		"yggdrasil": "^1.7.0"
+	}
+}
