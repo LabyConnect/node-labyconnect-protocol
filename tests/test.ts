@@ -2,6 +2,7 @@ import { test } from "uvu";
 import { Client } from "../src/index";
 import { gzipSync } from "zlib";
 import { PacketBuffer } from "../src/PacketBuffer";
+import * as assert from "uvu/assert";
 
 const { Authflow, Titles } = (await import('prismarine-auth')).default
 
@@ -19,6 +20,8 @@ test("test", async () => {
 
     const client = new Client(addDashes(response.profile.id), response.profile.name, response.token);
 
+    let pin = null;
+
     client.on("ready", async () => {
         const packetBuffer = new PacketBuffer(Buffer.alloc(0));
         packetBuffer.writeString("dashboard_pin")
@@ -27,7 +30,15 @@ test("test", async () => {
         client.sendPacket(32, packetBuffer);
     })
 
+    client.on("addonMessage", (key, data) => {
+        if (key === "dashboard_pin") pin = data.pin;
+    })
+
     client.connect();
+
+    while (!pin) await new Promise(resolve => setTimeout(resolve, 100));
+
+    console.log("Pin is", pin)
 })
 
 test.run()
