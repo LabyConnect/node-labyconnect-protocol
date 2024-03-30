@@ -4,7 +4,7 @@ import { PacketBuffer } from "../PacketBuffer";
 
 function getJson(data: Buffer) {
     if (!data || data.length === 0) {
-        return ''; // Return empty string for empty data
+        return '';
     }
   
     return JSON.parse(gunzipSync(data).toString());
