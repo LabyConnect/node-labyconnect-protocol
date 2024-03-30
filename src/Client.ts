@@ -55,6 +55,10 @@ export class Client extends EventEmitter {
         this.socket.connect(30336, "chat.labymod.net");
     }
 
+    disconnect() {
+        this.socket.end();
+    }
+
     sendPacket(packetId: number, data: PacketBuffer) {
         const packetBuffer = new PacketBuffer(Buffer.alloc(0));
         packetBuffer.writeVarInt(packetId)
