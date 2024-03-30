@@ -17,6 +17,7 @@
 		"uvu": "^0.5.6"
 	},
 	"dependencies": {
-		"yggdrasil": "^1.7.0"
+		"@minecraft-js/uuid": "^1.0.3",
+		"@minecraft-js/yggdrasil": "^1.0.0"
 	}
 }

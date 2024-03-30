@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@minecraft-js/uuid':
+    specifier: ^1.0.3
+    version: 1.0.3
+  '@minecraft-js/yggdrasil':
+    specifier: ^1.0.0
+    version: 1.0.0
   yggdrasil:
     specifier: ^1.7.0
     version: 1.7.0
@@ -311,6 +317,18 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@minecraft-js/uuid@1.0.3:
+    resolution: {integrity: sha512-IOomvwaBUGctcSreU2QFLwlQoFyJItBrsEt9sMFylg7+cyuS7IwoMFvbbfeC3uFrfmudQQqD8/TUOG4zcbHGVg==}
+    engines: {node: '>=18.x'}
+    dev: false
+
+  /@minecraft-js/yggdrasil@1.0.0:
+    resolution: {integrity: sha512-buWfqWf8IU1KKGsasCkNN0G2d2xrqQoLM5rKIZTGK4hkfziqhbDuAqm92GAcTmhWPTE18+9fj+7WbgTL6sQY7g==}
+    engines: {node: '>=18.x'}
+    dependencies:
+      '@minecraft-js/uuid': 1.0.3
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
