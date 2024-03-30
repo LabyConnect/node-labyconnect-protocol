@@ -17,17 +17,10 @@ function parsePublicKey(buffer: Buffer): string {
 }
 
 export default async function(client: Client, data: PacketBuffer) {
-    console.log("Enabling encryption...")
-
     const serverId = data.readString();
     const publicKey = data.readBytes();
     const verifyToken = data.readBytes();
     const sharedSecret = randomBytes(16);
-
-    console.log("Server ID:", serverId)
-    console.log("Public Key:", publicKey)
-    console.log("Verify Token:", verifyToken)
-    console.log("Shared Secret:", sharedSecret)
 
     const key = {
         key: parsePublicKey(publicKey),
@@ -40,4 +33,8 @@ export default async function(client: Client, data: PacketBuffer) {
     packetBuffer.writeBytes(publicEncrypt(key, sharedSecret));
     packetBuffer.writeBytes(publicEncrypt(key, verifyToken));
     client.sendPacket(11, packetBuffer)
+
+    client.enableEncryption(sharedSecret)
+
+    client.emit("encryptionRequest")
 }

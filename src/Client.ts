@@ -2,6 +2,7 @@ import { Socket } from "net";
 import { EventEmitter } from "events";
 import { PacketManager } from "./packets/PacketManager";
 import { PacketBuffer } from "./PacketBuffer";
+import { Cipher, Decipher, createCipheriv, createDecipheriv } from "crypto";
 
 export class Client extends EventEmitter {
     socket: Socket = new Socket();
@@ -10,6 +11,10 @@ export class Client extends EventEmitter {
     uuid: string;
     username: string;
     accessToken: string;
+
+    // encryption and decryption kind of that stuff
+    decipher?: Decipher;
+    cipher?: Cipher;
 
     constructor(uuid: string, username: string, accessToken: string) {
         super();
@@ -28,6 +33,8 @@ export class Client extends EventEmitter {
         });
 
         this.socket.on("data", (d) => {
+            if (this.decipher) d = this.decipher.update(d);
+
             let data = new PacketBuffer(d);
 
             const length = data.readVarInt();
@@ -53,10 +60,19 @@ export class Client extends EventEmitter {
         packetBuffer.writeVarInt(packetId)
         packetBuffer.concat(data.buffer)
 
-        const test = new PacketBuffer(Buffer.alloc(0));
-        test.writeVarInt(packetBuffer.buffer.length)
-        test.concat(packetBuffer.buffer)
+        const newPacketBuffer = new PacketBuffer(Buffer.alloc(0));
+        newPacketBuffer.writeVarInt(packetBuffer.buffer.length)
+        newPacketBuffer.concat(packetBuffer.buffer)
 
-        this.socket.write(test.buffer);
+        if (this.cipher) {
+            this.socket.write(this.cipher.update(newPacketBuffer.buffer));
+        } else {
+            this.socket.write(newPacketBuffer.buffer);
+        }
+    }
+
+    enableEncryption(sharedSecret: Buffer) {
+        this.decipher = createDecipheriv("aes-128-cfb8", sharedSecret, sharedSecret)
+        this.cipher = createCipheriv("aes-128-cfb8", sharedSecret, sharedSecret)
     }
 }

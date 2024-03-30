@@ -24,4 +24,6 @@ export default function(client: Client, data: PacketBuffer) {
     packetBuffer.writeInt(0) // Status
     packetBuffer.writeString(Intl.DateTimeFormat().resolvedOptions().timeZone) // Timezone ID 
     client.sendPacket(6, packetBuffer)
+
+    client.emit("helloPong")
 }

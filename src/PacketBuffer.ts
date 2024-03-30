@@ -1,8 +1,8 @@
 import { Buffer } from 'buffer';
 
 export class PacketBuffer {
-    public buffer: Buffer;
-    private offset: number = 0;
+    buffer: Buffer;
+    offset: number = 0;
 
     constructor(buffer: Buffer) {
         this.buffer = buffer;
@@ -93,6 +93,9 @@ export class PacketBuffer {
 
     readString(): string {
         const length = this.readInt()
+        if (length < 0 || length > this.buffer.length - this.offset) {
+            return
+        }
         const value = this.buffer.toString('utf-8', this.offset, this.offset + length)
         this.offset += length
         return value

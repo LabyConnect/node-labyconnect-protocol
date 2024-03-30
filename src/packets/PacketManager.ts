@@ -4,7 +4,9 @@ export class PacketManager {
     constructor() {
         ;(async () => {
             this.register(1, await import("./PacketHelloPong"));
+            this.register(7, await import("./PacketLoginComplete"));
             this.register(10, await import("./PacketEncryptionRequest"));
+            this.register(32, await import("./PacketAddonMessage"));
             this.register(62, await import("./PacketPing"));
         })()
     }
