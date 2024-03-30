@@ -1,8 +1,8 @@
 {
 	"name": "node-labyconnect-protocol",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Node.js wrapper for LabyConnect protocol",
-	"main": "dist/cjs/index.js",
+	"main": "dist/index.js",
 	"scripts": {
 		"build": "npx tsc",
 		"test": "tsm node_modules/uvu/bin.js tests"
