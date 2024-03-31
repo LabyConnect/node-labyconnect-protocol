@@ -20,7 +20,7 @@ export default function(client: Client, data: PacketBuffer) {
 
     // PacketLoginOptions
     packetBuffer = new PacketBuffer(Buffer.alloc(0))
-    packetBuffer.writeBoolean(false) // Show connected server
+    packetBuffer.writeBoolean(true) // Show connected server
     packetBuffer.writeInt(0) // Status
     packetBuffer.writeString(Intl.DateTimeFormat().resolvedOptions().timeZone) // Timezone ID 
     client.sendPacket(6, packetBuffer)
