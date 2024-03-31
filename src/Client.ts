@@ -3,6 +3,11 @@ import { EventEmitter } from "events";
 import { PacketManager } from "./packets/PacketManager";
 import { PacketBuffer } from "./PacketBuffer";
 import { Cipher, Decipher, createCipheriv, createDecipheriv } from "crypto";
+import { Status } from "./enums/Status";
+
+type ClientOptions = {
+    status: Status
+}
 
 export class Client extends EventEmitter {
     socket: Socket = new Socket();
@@ -12,16 +17,22 @@ export class Client extends EventEmitter {
     username: string;
     accessToken: string;
 
+    options: ClientOptions;
+
     // encryption and decryption kind of that stuff
     decipher?: Decipher;
     cipher?: Cipher;
 
-    constructor(uuid: string, username: string, accessToken: string) {
+    constructor(uuid: string, username: string, accessToken: string, options?: ClientOptions) {
         super();
 
         this.uuid = uuid;
         this.username = username;
         this.accessToken = accessToken;
+
+        this.options = options || {
+            status: Status.ONLINE
+        }
         
         this.socket.on("connect", () => {
             // Send PacketHelloPing

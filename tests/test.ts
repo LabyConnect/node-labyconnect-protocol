@@ -1,5 +1,5 @@
 import { test } from "uvu";
-import { Client } from "../src/index";
+import { Client, Status } from "../src/index";
 import { gzipSync } from "zlib";
 import { PacketBuffer } from "../src/PacketBuffer";
 import * as assert from "uvu/assert";
@@ -18,7 +18,9 @@ test("test", async () => {
     const flow = new Authflow("holybaechu", "./tests/cache", { authTitle: Titles.MinecraftNintendoSwitch, deviceType: 'Nintendo', flow: 'live' })
     const response = await flow.getMinecraftJavaToken({ fetchEntitlements: true, fetchProfile: true, fetchCertificates: true })
 
-    const client = new Client(addDashes(response.profile.id), response.profile.name, response.token);
+    const client = new Client(addDashes(response.profile.id), response.profile.name, response.token, {
+        status: Status.BUSY
+    });
 
     let pin = null;
 

@@ -21,7 +21,7 @@ export default function(client: Client, data: PacketBuffer) {
     // PacketLoginOptions
     packetBuffer = new PacketBuffer(Buffer.alloc(0))
     packetBuffer.writeBoolean(true) // Show connected server
-    packetBuffer.writeInt(0) // Status
+    packetBuffer.writeByte(client.options.status) // Status (-1(offline) doesn't work. Probably node.js bug)
     packetBuffer.writeString(Intl.DateTimeFormat().resolvedOptions().timeZone) // Timezone ID 
     client.sendPacket(6, packetBuffer)
 
