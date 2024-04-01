@@ -52,7 +52,7 @@ export class Client extends EventEmitter {
             const packetId = data.readVarInt();
 
             const packetHandler = this.packetManager.packets[packetId];
-            if (!packetHandler) return console.log(`Unknown packet id: ${packetId}`);
+            if (!packetHandler) return this.emit("warn", `Unknown packet id: ${packetId}`);
 
             packetHandler(this, data);
         });
