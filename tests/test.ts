@@ -15,8 +15,8 @@ function toBytes(str) {
 }
 
 test("test", async () => {
-    const flow = new Authflow("holybaechu", "./tests/cache", { authTitle: Titles.MinecraftNintendoSwitch, deviceType: 'Nintendo', flow: 'live' })
-    const response = await flow.getMinecraftJavaToken({ fetchEntitlements: true, fetchProfile: true, fetchCertificates: true })
+    const flow = new Authflow("holybaechu0", "./tests/cache", { authTitle: Titles.MinecraftNintendoSwitch, deviceType: 'Nintendo', flow: 'live' })
+    const response = await flow.getMinecraftJavaToken({ fetchProfile: true })
 
     const client = new Client(addDashes(response.profile.id), response.profile.name, response.token, {
         status: Status.BUSY
@@ -25,6 +25,8 @@ test("test", async () => {
     let pin = null;
 
     client.on("ready", async () => {
+        console.log("Client is ready");
+
         const packetBuffer = new PacketBuffer(Buffer.alloc(0));
         packetBuffer.writeString("dashboard_pin")
         packetBuffer.writeBytes(toBytes("{}"))

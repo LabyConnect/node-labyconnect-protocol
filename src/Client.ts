@@ -48,6 +48,8 @@ export class Client extends EventEmitter {
 
             let data = new PacketBuffer(d);
 
+            console.log(data.buffer)
+
             const length = data.readVarInt();
             const packetId = data.readVarInt();
 
@@ -71,6 +73,8 @@ export class Client extends EventEmitter {
     }
 
     sendPacket(packetId: number, data: PacketBuffer) {
+        if (!this.socket.writable) return this.emit("warn", "Socket is not writable. Check if the socket is disconnected..."); // In case if the socket is disconnected or not writable
+
         const packetBuffer = new PacketBuffer(Buffer.alloc(0));
         packetBuffer.writeVarInt(packetId)
         packetBuffer.concat(data.buffer)
