@@ -48,7 +48,7 @@ export class Client extends EventEmitter {
 
             let data = new PacketBuffer(d);
 
-            console.log(data.buffer)
+            // console.log(data.buffer)
 
             const length = data.readVarInt();
             const packetId = data.readVarInt();

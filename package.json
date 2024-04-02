@@ -1,6 +1,6 @@
 {
 	"name": "node-labyconnect-protocol",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "Node.js wrapper for LabyConnect protocol",
 	"main": "dist/index.js",
 	"scripts": {
