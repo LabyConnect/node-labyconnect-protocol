@@ -1,8 +1,7 @@
 import { constants, publicEncrypt, randomBytes } from "crypto";
 import { Client } from "../Client";
 import { PacketBuffer } from "../PacketBuffer";
-import { yggdrasil } from "@minecraft-js/yggdrasil";
-import { parseUUID } from "@minecraft-js/uuid";
+import { yggdrasil } from "@labyconnect/mcauth";
 
 // https://github.com/MinecraftJS/protocol-1.8/blob/main/src/utils/parsePublicKey.ts
 // I luv u MinecraftJS <3
@@ -27,7 +26,7 @@ export default async function(client: Client, data: PacketBuffer) {
         padding: constants.RSA_PKCS1_PADDING
     }
 
-    await yggdrasil.join(client.accessToken, parseUUID(client.uuid), serverId, sharedSecret, publicKey)
+    await yggdrasil.join(client.accessToken, client.uuid, serverId, sharedSecret, publicKey)
 
     const packetBuffer = new PacketBuffer(Buffer.alloc(0));
     packetBuffer.writeBytes(publicEncrypt(key, sharedSecret));

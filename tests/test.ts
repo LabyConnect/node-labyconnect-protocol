@@ -2,9 +2,10 @@ import { test } from "uvu";
 import { Client, Status } from "../src/index";
 import { gzipSync } from "zlib";
 import { PacketBuffer } from "../src/PacketBuffer";
-import * as assert from "uvu/assert";
+import { getMinecraftJavaToken, xblAuthenticate } from "@labyconnect/mcauth";
+import { config } from "dotenv";
 
-const { Authflow, Titles } = (await import('prismarine-auth')).default
+config();
 
 function addDashes(uuid: string): string {
     return `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`
@@ -15,10 +16,10 @@ function toBytes(str) {
 }
 
 test("test", async () => {
-    const flow = new Authflow("holybaechu0", "./tests/cache", { authTitle: Titles.MinecraftNintendoSwitch, deviceType: 'Nintendo', flow: 'live' })
-    const response = await flow.getMinecraftJavaToken({ fetchProfile: true })
+    const xsts = await xblAuthenticate(process.env.MS_EMAIL || "", process.env.MS_PASSWORD || "")
+    const minecraftToken = await getMinecraftJavaToken(xsts, true)
 
-    const client = new Client(addDashes(response.profile.id), response.profile.name, response.token, {
+    const client = new Client(addDashes(minecraftToken.profile.id), minecraftToken.profile.name || "", minecraftToken.token, {
         status: Status.BUSY
     });
 
